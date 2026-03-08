@@ -23,15 +23,35 @@ Current topics:
 
 I created this repository to preserve my algorithm learning record and document my growth over time.
 
-## File Structure
+## Structure
 
-- `dynamic_programming.cpp`
-- `binary_search.cpp`
-- `divide_and_conquer.cpp`
-- `prefix_sum_and_difference.cpp`
-- `data_structures.cpp`
-- `search.cpp`
-- `greedy.cpp`
+```text
+.
+├─ raw/
+│  ├─ 动态规划.cpp
+│  ├─ 二分法.cpp
+│  ├─ 分治.cpp
+│  ├─ 前缀和与差分.cpp
+│  ├─ 数据结构.cpp
+│  ├─ 搜索.cpp
+│  └─ 贪心算法.cpp
+├─ dynamic-programming/
+│  ├─ linear-dp/
+│  ├─ knapsack-dp/
+│  ├─ interval-dp/
+│  └─ state-machine-dp/
+├─ binary-search/
+├─ divide-and-conquer/
+├─ prefix-sum-and-difference/
+├─ data-structures/
+│  ├─ stack/
+│  └─ disjoint-set-union/
+├─ search/
+│  ├─ dfs/
+│  └─ bfs/
+└─ greedy/
+
+```
 
 ## Note
 
