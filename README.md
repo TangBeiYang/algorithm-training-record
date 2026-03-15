@@ -27,6 +27,10 @@ I created this repository to preserve my algorithm learning record and document 
 
 ```text
 .
+## Structure
+
+```text
+.
 ├─ raw/
 │  ├─ 动态规划.cpp
 │  ├─ 二分法.cpp
@@ -45,12 +49,14 @@ I created this repository to preserve my algorithm learning record and document 
 ├─ prefix-sum-and-difference/
 ├─ data-structures/
 │  ├─ stack/
-│  └─ disjoint-set-union/
+│  ├─ disjoint-set-union/
+│  ├─ heap/
+│  ├─ sparse-table/
+│  └─ binary-indexed-tree/
 ├─ search/
 │  ├─ dfs/
 │  └─ bfs/
 └─ greedy/
-
 ```
 
 ## Note
