@@ -18,6 +18,7 @@ Current topics:
 - Data Structures
 - Search
 - Greedy Algorithms
+- graph-theory
 
 ## Purpose
 
@@ -38,7 +39,8 @@ I created this repository to preserve my algorithm learning record and document 
 │  ├─ 前缀和与差分.cpp
 │  ├─ 数据结构.cpp
 │  ├─ 搜索.cpp
-│  └─ 贪心算法.cpp
+│  ├─ 贪心算法.cpp
+│  └─ 图论.cpp
 ├─ dynamic-programming/
 │  ├─ linear-dp/
 │  ├─ knapsack-dp/
@@ -53,6 +55,9 @@ I created this repository to preserve my algorithm learning record and document 
 │  ├─ heap/
 │  ├─ sparse-table/
 │  └─ binary-indexed-tree/
+├─ graph-theory/
+|  ├─ traversal/
+|  └─ shortest-path/
 ├─ search/
 │  ├─ dfs/
 │  └─ bfs/
