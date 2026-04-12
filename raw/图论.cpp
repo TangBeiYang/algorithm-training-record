@@ -1,5 +1,4 @@
 //图的存储和遍历
-
 //P2661 [NOIP 2015 提高组] 信息传递
 /*#include<iostream>
 #include<vector>
@@ -78,9 +77,6 @@ int main() {
 	for (int i = 1; i <= n; i++)cout << ans[i] << "\n";
 	return 0;
 }*/
-
-//最短路问题
-
 //P3371 【模板】单源最短路径（弱化版）
 /*#include<iostream>
 #include<vector>
@@ -227,5 +223,189 @@ int main() {
 	}
 
 	for (int i = 1; i <= n; i++)cout << ans[i] << "\n";
+	return 0;
+}*/
+//P1462 通往奥格瑞玛的道路
+/*#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+int n, m, b;
+vector<int>mey;
+vector<vector<pair<int, int>>>g;
+
+bool check_d(int d) {
+	if (d < mey[1] || d < mey[n])return 0;
+	priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>>q;
+	vector<long long>dist(n + 1, 4e18);
+	vector<int>vis(n + 1, 0);
+	q.push({ 0,1 }); dist[1] = 0;
+	while (!q.empty()) {
+		auto [s, u] = q.top(); q.pop();
+		if (vis[u] || mey[u] > d)continue;
+		vis[u] = 1;
+		for (auto [v, w] : g[u]) {
+			if (mey[v] > d)continue;
+			if (dist[v] > dist[u] + w) {
+				dist[v] = dist[u] + w;
+				if (dist[v] <= b)q.push({ dist[v], v });
+			}
+		}
+	}
+	if (dist[n] <= b)return 1;
+	return 0;
+}
+
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+
+	cin >> n >> m >> b;
+	mey.resize(n + 1);
+	int max_mey = 0;
+	for (int i = 1; i <= n; i++) {
+		cin >> mey[i]; 
+		max_mey = max(mey[i], max_mey);
+	}
+	g.resize(n + 1);
+	for (int i = 1; i <= m; i++) {
+		int u, v, w;
+		cin >> u >> v >> w;
+		g[u].push_back({ v,w });
+		g[v].push_back({ u,w });
+	}
+	int left = 0, right = max_mey + 1;
+
+	if (right == 1) {
+		if (check_d(0)) { cout << 0; return 0; }
+		else { cout << "AFK"; return 0; }
+	}
+
+	while (left + 1 < right) {
+		int mid = (left + right) / 2;
+		if (check_d(mid))right = mid;
+		else left = mid;
+	}
+
+	if (right != max_mey + 1)cout << right;
+	else cout << "AFK";
+
+	return 0;
+}*/
+//P1266 [BalticOI 2002] 速度限制
+/*#include<iostream>
+#include<vector>
+#include<queue>
+#include<algorithm>
+typedef double D;
+using namespace std;
+struct RawEdge {
+	int from, to;
+	D len, speed; 
+};
+struct Edge {
+	int to;
+	D len;
+	int speedId;
+};
+struct Node {
+	D dist;
+	int u;
+	int sid;
+	bool operator>(const Node& other) const {
+		return dist > other.dist;
+	}
+};
+int main() {
+	ios::sync_with_stdio(false);
+	cin.tie(nullptr);
+
+	int n, m, target;
+	cin >> n >> m >> target;
+	vector<RawEdge> rawE;
+	vector<D> speeds;
+	speeds.push_back(70.0); 
+	for (int i = 0; i < m; i++) {
+		RawEdge temp;
+		cin >> temp.from >> temp.to >> temp.len >> temp.speed;
+		rawE.push_back(temp);
+		if (temp.speed) speeds.push_back(temp.speed);
+	}
+
+	sort(speeds.begin(), speeds.end());
+	speeds.erase(unique(speeds.begin(), speeds.end()), speeds.end());
+	vector<vector<Edge>> g(n);
+	for (RawEdge temp : rawE) {
+		int id = -1;
+		if (temp.speed != 0) {
+			id = lower_bound(speeds.begin(), speeds.end(), temp.speed) - speeds.begin();
+		}
+		Edge e = { temp.to, temp.len, id };
+		g[temp.from].push_back(e);
+	}
+
+	const D INF = 1e100;
+	int S = speeds.size();
+	vector<vector<D>> dist(n, vector<D>(S, INF));
+	vector<vector<int>> vis(n, vector<int>(S, 0));
+	vector<vector<int>> preU(n, vector<int>(S, -1));
+	vector<vector<int>> preSid(n, vector<int>(S, -1));
+	int initSid = lower_bound(speeds.begin(), speeds.end(), 70.0) - speeds.begin();
+	priority_queue<Node, vector<Node>, greater<Node>> q;
+	dist[0][initSid] = 0; q.push({ 0.0, 0, initSid });
+
+	while (!q.empty()) {
+		auto [di, u, sid] = q.top(); q.pop();
+		if (vis[u][sid]) continue;
+		vis[u][sid] = 1;
+
+		for (Edge e : g[u]) {
+			int v = e.to;
+			int nextSid;
+			D speedUsed;
+			if (e.speedId == -1) {
+				nextSid = sid;
+				speedUsed = speeds[sid];
+			}
+			else {
+				nextSid = e.speedId;
+				speedUsed = speeds[nextSid];
+			}
+			D newDist = dist[u][sid] + e.len / speedUsed;
+			if (dist[v][nextSid] > newDist) {
+				dist[v][nextSid] = newDist;
+				preU[v][nextSid] = u;
+				preSid[v][nextSid] = sid;
+				q.push({ newDist, v, nextSid });
+			}
+		}
+	}
+
+	D best = INF;
+	int bestSid = -1;
+	for (int sid = 0; sid < S; sid++) {
+		if (dist[target][sid] < best) {
+			best = dist[target][sid];
+			bestSid = sid;
+		}
+	}
+	if (bestSid == -1) {
+		cout << "No path\n";
+		return 0;
+	}
+
+	vector<int> path;
+	int u = target, sid = bestSid;
+	while (u != -1) {
+		path.push_back(u);
+		int pu = preU[u][sid];
+		int psid = preSid[u][sid];
+		u = pu;
+		sid = psid;
+	}
+	reverse(path.begin(), path.end());
+
+	for (int x : path) cout << x << " ";
+
 	return 0;
 }*/
