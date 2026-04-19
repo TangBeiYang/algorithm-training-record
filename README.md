@@ -57,7 +57,8 @@ I created this repository to preserve my algorithm learning record and document 
 │  └─ binary-indexed-tree/
 ├─ graph-theory/
 |  ├─ traversal/
-|  └─ shortest-path/
+|  ├─ shortest-path/
+|  └─ binary-tree/
 ├─ search/
 │  ├─ dfs/
 │  └─ bfs/
